@@ -1,19 +1,30 @@
-import { View } from 'react-native';
-import type {
-  ItemStyle,
-  MarginCollapsingContainerProps,
-  MarginCollapsingItem,
-} from './types';
+import { StyleSheet, View, type ViewProps } from 'react-native';
+import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
 import { getMarginBottom, getMarginTop } from './utils';
+
+export interface MarginCollapsingItem extends MarginCollapsibleLayoutProps {
+  key: string;
+  content?: React.ReactNode;
+}
+
+export interface MarginCollapsingContainerProps
+  extends Omit<ViewProps, 'children'> {
+  items: MarginCollapsingItem[];
+  debug?: boolean;
+}
 
 export function MarginCollapsingContainer({
   items,
+  debug,
   ...restProps
 }: MarginCollapsingContainerProps) {
-  return <View {...restProps}>{calculateChildViews(items)}</View>;
+  return <View {...restProps}>{calculateChildViews(items, debug)}</View>;
 }
 
-function calculateChildViews(items: MarginCollapsingItem[]): React.ReactNode[] {
+function calculateChildViews(
+  items: MarginCollapsingItem[],
+  debug?: boolean
+): React.ReactNode[] {
   const result: React.ReactNode[] = [];
 
   for (let i = 0; i < items.length; i++) {
@@ -23,17 +34,24 @@ function calculateChildViews(items: MarginCollapsingItem[]): React.ReactNode[] {
 
     const style: ItemStyle = {};
     if (!previousItem) {
-      style.marginTop = getMarginTop(currentItem);
+      style.paddingTop = getMarginTop(currentItem);
     } else {
-      style.marginTop =
+      style.paddingTop =
         Math.max(getMarginBottom(previousItem), getMarginTop(currentItem)) / 2;
     }
 
     if (!nextItem) {
-      style.marginBottom = getMarginBottom(currentItem);
+      style.paddingBottom = getMarginBottom(currentItem);
     } else {
-      style.marginBottom =
+      style.paddingBottom =
         Math.max(getMarginTop(nextItem), getMarginBottom(currentItem)) / 2;
+    }
+
+    if (debug) {
+      style.backgroundColor =
+        i % 2 === 0
+          ? styles.debugItem.backgroundColor
+          : styles.debugItemAlt.backgroundColor;
     }
 
     result.push(
@@ -49,3 +67,12 @@ function calculateChildViews(items: MarginCollapsingItem[]): React.ReactNode[] {
 
   return result;
 }
+
+const styles = StyleSheet.create({
+  debugItem: {
+    backgroundColor: 'orange',
+  },
+  debugItemAlt: {
+    backgroundColor: 'lightblue',
+  },
+});

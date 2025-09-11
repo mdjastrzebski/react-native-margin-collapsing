@@ -19,20 +19,20 @@ test('MarginCollapsingContainer calculates margins correctly', () => {
   expect(screen.getByText('Item 3')).toBeOnTheScreen();
 
   expect(screen.getByTestId('margin-collapsing-item-1')).toHaveStyle({
-    marginTop: 10,
-    marginBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
   });
   expect(screen.getByTestId('margin-collapsing-item-2')).toHaveStyle({
-    marginTop: 10,
-    marginBottom: 15,
+    paddingTop: 10,
+    paddingBottom: 15,
   });
   expect(screen.getByTestId('margin-collapsing-item-3')).toHaveStyle({
-    marginTop: 15,
-    marginBottom: 30,
+    paddingTop: 15,
+    paddingBottom: 30,
   });
 });
 
-test('MarginCollapsingContainer calculates margins correctly for single item', () => {
+test('MarginCollapsingContainer calculates margins correctly for one item', () => {
   // Arrange
   const items = [
     { key: '1', content: <Text>Item 1</Text>, marginTop: 10, marginBottom: 20 },
@@ -44,8 +44,8 @@ test('MarginCollapsingContainer calculates margins correctly for single item', (
   // Assert
   expect(screen.getByText('Item 1')).toBeOnTheScreen();
   expect(screen.getByTestId('margin-collapsing-item-1')).toHaveStyle({
-    marginTop: 10,
-    marginBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
   });
 });
 
@@ -62,12 +62,12 @@ test('MarginCollapsingContainer calculates margins correctly for two items', () 
   // Assert
   expect(screen.getByText('Item 1')).toBeOnTheScreen();
   expect(screen.getByTestId('margin-collapsing-item-1')).toHaveStyle({
-    marginTop: 10,
-    marginBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
   });
   expect(screen.getByText('Item 2')).toBeOnTheScreen();
   expect(screen.getByTestId('margin-collapsing-item-2')).toHaveStyle({
-    marginTop: 10,
-    marginBottom: 25,
+    paddingTop: 10,
+    paddingBottom: 25,
   });
 });
