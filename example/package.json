@@ -5,8 +5,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "ios": "expo start --ios"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.1",
@@ -15,7 +14,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",
-    "react-native-web": "~0.21.0"
+    "react-native-safe-area-context": "^5.6.1"
   },
   "private": true,
   "devDependencies": {
