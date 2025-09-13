@@ -1,11 +1,12 @@
 import {
   FlatList,
-  StyleSheet,
-  View,
   type FlatListProps,
   type ListRenderItem,
   type ListRenderItemInfo,
+  StyleSheet,
+  View,
 } from 'react-native';
+
 import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
 import { getMarginBottom, getMarginTop } from './utils';
 

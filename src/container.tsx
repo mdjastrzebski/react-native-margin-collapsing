@@ -1,4 +1,5 @@
 import { StyleSheet, View, type ViewProps } from 'react-native';
+
 import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
 import { getMarginBottom, getMarginTop } from './utils';
 
