@@ -1,6 +1,7 @@
 import { View, type LayoutChangeEvent } from 'react-native';
 import { DEBUG_COLORS } from './constants';
 import type { ItemStyle, MarginCollapsingItem } from './types';
+import { MCError } from './utils/error';
 
 export function getMarginTop(item: MarginCollapsingItem): number {
   return item.marginTop ?? item.marginVertical ?? 0;
@@ -40,18 +41,21 @@ export function getNextNonZeroItem<T extends MarginCollapsingItem>(
   return null;
 }
 
-export function validateKeyUniqueness(items: MarginCollapsingItem[]): void {
-  const keySet = new Set<string>();
-  items.forEach((item) => {
-    const key = item.key;
+export function validateKeyUniqueness(
+  items: Readonly<ArrayLike<MarginCollapsingItem>>
+): void {
+  const keySet = new Map<string, number>();
+  for (let i = 0; i < items.length; i++) {
+    const key = items[i]!.key;
     if (keySet.has(key)) {
-      throw new Error(
-        `Duplicate key "${key}" found in MarginCollapsingContainer items. Keys should be unique to ensure proper behavior.`
+      throw new MCError(
+        `Duplicate key "${key}" found at index ${keySet.get(key)} and ${i}. Each item must have a unique key.`,
+        validateKeyUniqueness
       );
     }
 
-    keySet.add(key);
-  });
+    keySet.set(key, i);
+  }
 }
 
 type CalculateChildViewOptions = {

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 import { StyleSheet, Text, type TextProps } from 'react-native';
 
 export function PressToHideText(props: TextProps) {
   const [visible, setVisible] = React.useState(true);
 
-  //   useEffect(() => {
+  // Uncomment to auto-show after 5 seconds
+  //   React.useEffect(() => {
   //     setTimeout(() => {
   //       setVisible(true);
   //     }, 5000);

@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import type { MarginCollapsingItem } from './types';
-import { wrapElement } from './utils';
+import { validateKeyUniqueness, wrapElement } from './utils';
 
 export interface MarginCollapsibleFlatListItem<T> extends MarginCollapsingItem {
   data: T;
@@ -27,10 +27,17 @@ export function MarginCollapsingFlatList<T>({
   debug,
   ...restProps
 }: MarginCollapsingFlatListProps<T>) {
-  console.log('Rendering FlatList...');
+  if (debug) {
+    console.log('Rendering Container...');
+  }
 
-  const [, forceRerender] = React.useState({});
+  if (__DEV__ && data) {
+    validateKeyUniqueness(data);
+  }
+
+  // Hold a map of zero-sized (hidden) items to avoid taking them into account during margin collapsing.
   const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
+  const [, forceRerender] = React.useState({});
 
   const _renderItem: ListRenderItem<MarginCollapsibleFlatListItem<T>> = (
     info: ListRenderItemInfo<MarginCollapsibleFlatListItem<T>>
