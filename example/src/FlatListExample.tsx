@@ -1,7 +1,7 @@
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import {
-  MarginCollapsingFlatList,
   type MarginCollapsibleFlatListItem,
+  MarginCollapsingFlatList,
 } from 'react-native-margin-collapsing';
 
 type ItemData = MarginCollapsibleFlatListItem<{ title: string }>;

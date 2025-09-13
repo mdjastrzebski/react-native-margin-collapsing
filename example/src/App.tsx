@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
 import { ContainerExample } from './ContainerExample';
 import { FlatListExample } from './FlatListExample';
 

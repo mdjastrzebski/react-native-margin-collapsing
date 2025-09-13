@@ -1,5 +1,6 @@
-import { Text } from 'react-native';
 import { render, screen } from '@testing-library/react-native';
+import { Text } from 'react-native';
+
 import { MarginCollapsingContainer } from '../container';
 
 test('MarginCollapsingContainer calculates margins correctly', () => {
