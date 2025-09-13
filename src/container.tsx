@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, type ViewProps } from 'react-native';
+
 import type { MarginCollapsingItem } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
 
@@ -23,7 +24,7 @@ export function MarginCollapsingContainer({
   }
 
   if (__DEV__) {
-    validateKeyUniqueness(items, MarginCollapsingContainer);
+    validateKeyUniqueness(items);
   }
 
   // Hold a map of zero-sized (hidden) items to avoid taking them into account during margin collapsing.

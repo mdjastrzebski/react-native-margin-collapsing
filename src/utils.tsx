@@ -1,4 +1,5 @@
-import { View, type LayoutChangeEvent } from 'react-native';
+import { type LayoutChangeEvent, View } from 'react-native';
+
 import { DEBUG_COLORS } from './constants';
 import type { ItemStyle, MarginCollapsingItem } from './types';
 import { MCError } from './utils/error';

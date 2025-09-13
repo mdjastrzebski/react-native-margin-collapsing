@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { MarginCollapsingContainer } from 'react-native-margin-collapsing';
+
 import { PressToHideText } from './PressToHide';
 
 export function ContainerExample() {

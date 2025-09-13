@@ -4,10 +4,8 @@ import {
   type FlatListProps,
   type ListRenderItem,
   type ListRenderItemInfo,
-  StyleSheet,
-  View,
-  View,
 } from 'react-native';
+
 import type { MarginCollapsingItem } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
 

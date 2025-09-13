@@ -3,6 +3,7 @@ import {
   type MarginCollapsibleFlatListItem,
   MarginCollapsingFlatList,
 } from 'react-native-margin-collapsing';
+
 import { PressToHideText } from './PressToHide';
 
 type ItemData = MarginCollapsibleFlatListItem<{ title: string }>;
