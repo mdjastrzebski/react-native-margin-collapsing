@@ -5,13 +5,14 @@ import {
   type ListRenderItemInfo,
   StyleSheet,
   View,
+  View,
 } from 'react-native';
 
-import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
+import { DEBUG_COLORS } from './constants';
+import type { ItemStyle, MarginCollapsingItem } from './types';
 import { getMarginBottom, getMarginTop } from './utils';
 
-export interface MarginCollapsibleFlatListItem<T>
-  extends MarginCollapsibleLayoutProps {
+export interface MarginCollapsibleFlatListItem<T> extends MarginCollapsingItem {
   key: string;
   data: T;
 }
@@ -49,10 +50,7 @@ export function MarginCollapsingFlatList<T>({
     }
 
     if (restProps.debug) {
-      style.backgroundColor =
-        info.index % 2 === 0
-          ? styles.debugItem.backgroundColor
-          : styles.debugItemAlt.backgroundColor;
+      style.backgroundColor = DEBUG_COLORS[info.index % DEBUG_COLORS.length];
     }
 
     if (!renderItem) {
@@ -68,12 +66,3 @@ export function MarginCollapsingFlatList<T>({
 
   return <FlatList {...restProps} data={data} renderItem={_renderItem} />;
 }
-
-const styles = StyleSheet.create({
-  debugItem: {
-    backgroundColor: 'orange',
-  },
-  debugItemAlt: {
-    backgroundColor: 'lightblue',
-  },
-});

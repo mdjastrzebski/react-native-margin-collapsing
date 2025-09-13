@@ -1,10 +1,16 @@
-import { StyleSheet, View, type ViewProps } from 'react-native';
+import * as React from 'react';
+import { type LayoutChangeEvent, View, type ViewProps } from 'react-native';
 
-import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
-import { getMarginBottom, getMarginTop } from './utils';
+import { DEBUG_COLORS } from './constants';
+import type { ItemStyle, MarginCollapsingItem } from './types';
+import {
+  getMarginBottom,
+  getMarginTop,
+  getNextNonZeroItem,
+  getPreviousNonZeroItem,
+} from './utils';
 
-export interface MarginCollapsingItem extends MarginCollapsibleLayoutProps {
-  key: string;
+export interface MarginCollapsingContainerItem extends MarginCollapsingItem {
   content?: React.ReactNode;
 }
 
@@ -19,61 +25,90 @@ export function MarginCollapsingContainer({
   debug,
   ...restProps
 }: MarginCollapsingContainerProps) {
-  return <View {...restProps}>{calculateChildViews(items, debug)}</View>;
+  console.log('Rendering...');
+  const [, forceRerender] = React.useState({});
+
+  const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
+
+  const handleRerenderRequest = React.useCallback(() => {
+    forceRerender({});
+  }, []);
+
+  const content = calculateChildViews(
+    items,
+    isHiddenMap,
+    handleRerenderRequest,
+    debug
+  );
+
+  return <View {...restProps}>{content}</View>;
 }
 
 function calculateChildViews(
-  items: MarginCollapsingItem[],
+  items: MarginCollapsingContainerItem[],
+  isHiddenMap: Record<string, boolean>,
+  onRequestRender: () => void,
   debug?: boolean
-): React.ReactNode[] {
-  const result: React.ReactNode[] = [];
+) {
+  const content: React.ReactNode[] = [];
 
   for (let i = 0; i < items.length; i++) {
-    const previousItem = items[i - 1];
     const currentItem = items[i]!;
-    const nextItem = items[i + 1];
+    const previousItem = getPreviousNonZeroItem(items, isHiddenMap, i);
+    const nextItem = getNextNonZeroItem(items, isHiddenMap, i);
 
     const style: ItemStyle = {};
+
     if (!previousItem) {
       style.paddingTop = getMarginTop(currentItem);
     } else {
       style.paddingTop =
-        Math.max(getMarginBottom(previousItem), getMarginTop(currentItem)) / 2;
+        Math.max(getMarginTop(currentItem), getMarginBottom(previousItem)) / 2;
     }
 
     if (!nextItem) {
       style.paddingBottom = getMarginBottom(currentItem);
     } else {
       style.paddingBottom =
-        Math.max(getMarginTop(nextItem), getMarginBottom(currentItem)) / 2;
+        Math.max(getMarginBottom(currentItem), getMarginTop(nextItem)) / 2;
+    }
+
+    const key = currentItem.key;
+
+    if (isHiddenMap[key]) {
+      console.log('Skipping ', key);
+      style.paddingTop = 0;
+      style.paddingBottom = 0;
     }
 
     if (debug) {
-      style.backgroundColor =
-        i % 2 === 0
-          ? styles.debugItem.backgroundColor
-          : styles.debugItemAlt.backgroundColor;
+      style.backgroundColor = DEBUG_COLORS[i % DEBUG_COLORS.length];
     }
 
-    result.push(
+    const handleLayout = (event: LayoutChangeEvent) => {
+      const isHidden = event.nativeEvent.layout.height === 0;
+      const isHiddenOld = !!isHiddenMap[key];
+
+      isHiddenMap[key] = isHidden;
+      if (isHidden !== isHiddenOld) {
+        console.log(
+          `Item ${currentItem.key} hidden state changed: ${isHidden} (height: ${event.nativeEvent.layout.height})`
+        );
+
+        onRequestRender();
+      }
+    };
+
+    content.push(
       <View
         key={currentItem.key}
         style={style}
         testID={`margin-collapsing-item-${currentItem.key}`}
       >
-        {currentItem.content}
+        <View onLayout={handleLayout}>{currentItem.content}</View>
       </View>
     );
   }
 
-  return result;
+  return content;
 }
-
-const styles = StyleSheet.create({
-  debugItem: {
-    backgroundColor: 'orange',
-  },
-  debugItemAlt: {
-    backgroundColor: 'lightblue',
-  },
-});
