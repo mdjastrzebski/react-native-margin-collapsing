@@ -45,13 +45,11 @@ export function ExampleFlatList({ debug }: { debug?: boolean }) {
     <MCFlatList
       data={data}
       renderItem={renderItem}
-      itemWrapperStyle={
-        debug
-          ? (_item, index) => ({
-              backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
-            })
-          : undefined
-      }
+      itemWrapperStyle={debug ? debugItemWrapperStyle : undefined}
     />
   );
 }
+
+const debugItemWrapperStyle = (_item: Item, index: number) => ({
+  backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
+});
