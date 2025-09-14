@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, type ViewProps } from 'react-native';
+import { View, type ViewProps, type ViewStyle } from 'react-native';
 
 import type { MCItem } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
@@ -10,14 +10,16 @@ export interface MCStackItem extends MCItem {
 
 export interface MCStackProps extends Omit<ViewProps, 'children'> {
   items: MCStackItem[];
-  debug?: boolean;
+  itemWrapperStyle?:
+    | ViewStyle
+    | ((item: MCStackItem, index: number) => ViewStyle);
 }
 
-export function MCStack({ items, debug, ...restProps }: MCStackProps) {
-  if (debug) {
-    console.log('Rendering Stack...');
-  }
-
+export function MCStack({
+  items,
+  itemWrapperStyle,
+  ...restProps
+}: MCStackProps) {
   if (__DEV__) {
     validateKeyUniqueness(items);
   }
@@ -32,7 +34,7 @@ export function MCStack({ items, debug, ...restProps }: MCStackProps) {
       index,
       isHiddenMap,
       onRequestRender: () => forceRerender({}),
-      debug,
+      itemWrapperStyle,
     })
   );
 

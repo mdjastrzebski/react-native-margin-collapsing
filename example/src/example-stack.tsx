@@ -1,8 +1,9 @@
-import { MCStack } from 'react-native-margin-collapsing';
+import { MCStack, type MCStackItem } from 'react-native-margin-collapsing';
 
+import { DEBUG_COLORS } from './debug';
 import { PressToHideText } from './press-to-hide';
 
-export function ExampleStack() {
+export function ExampleStack({ debug }: { debug?: boolean }) {
   return (
     <MCStack
       items={[
@@ -32,7 +33,19 @@ export function ExampleStack() {
           marginVertical: 20,
         },
       ]}
-      debug
+      style={styles.stack}
+      itemWrapperStyle={debug ? debugItemWrapperStyle : undefined}
     />
   );
 }
+
+const debugItemWrapperStyle = (_item: MCStackItem, index: number) => ({
+  backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
+});
+
+const styles = {
+  stack: {
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+};
