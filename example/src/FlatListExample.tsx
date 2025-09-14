@@ -1,15 +1,14 @@
-import { StyleSheet } from 'react-native';
 import {
-  type MarginCollapsibleFlatListItem,
-  MarginCollapsingFlatList,
+  MCFlatList,
+  type MCFlatListItem,
 } from 'react-native-margin-collapsing';
 
 import { PressToHideText } from './PressToHide';
 
-type ItemData = MarginCollapsibleFlatListItem<{ title: string }>;
+type Item = MCFlatListItem<{ title: string }>;
 
 export function FlatListExample() {
-  const data: ItemData[] = [
+  const data: Item[] = [
     {
       key: '1',
       data: { title: 'Item 1' },
@@ -35,29 +34,11 @@ export function FlatListExample() {
       data: { title: 'Item 5' },
       marginVertical: 10,
     },
-  ];
+  ] as const;
 
-  const renderItem = ({ item }: { item: ItemData }) => (
-    <PressToHideText style={styles.item}>
-      Margin: {item.marginVertical}
-    </PressToHideText>
-  );
+  const renderItem = ({ item }: { item: Item }) => {
+    return <PressToHideText>Margin: {item.marginVertical}</PressToHideText>;
+  };
 
-  return (
-    <MarginCollapsingFlatList
-      data={data}
-      renderItem={renderItem}
-      //contentContainerStyle={styles.content}
-      debug
-    />
-  );
+  return <MCFlatList data={data} renderItem={renderItem} debug />;
 }
-
-const styles = StyleSheet.create({
-  content: {
-    backgroundColor: 'lightgrey',
-  },
-  item: {
-    backgroundColor: 'grey',
-  },
-});

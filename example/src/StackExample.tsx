@@ -1,9 +1,8 @@
-import { StyleSheet } from 'react-native';
-import { MarginCollapsingContainer } from 'react-native-margin-collapsing';
+import { MCStack } from 'react-native-margin-collapsing';
 
 import { PressToHideText } from './PressToHide';
 
-export function ContainerExample() {
+export function StackExample() {
   const containerItems = [
     {
       key: '1',
@@ -27,15 +26,5 @@ export function ContainerExample() {
     },
   ];
 
-  return (
-    <MarginCollapsingContainer
-      items={containerItems}
-      style={styles.container}
-      debug
-    />
-  );
+  return <MCStack items={containerItems} debug />;
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});

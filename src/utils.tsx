@@ -1,18 +1,18 @@
 import { type LayoutChangeEvent, View } from 'react-native';
 
-import { DEBUG_COLORS } from './constants';
-import type { ItemStyle, MarginCollapsingItem } from './types';
+import { DEBUG_COLORS } from './stack';
+import type { ItemStyle, MCItem } from './types';
 import { MCError } from './utils/error';
 
-export function getMarginTop(item: MarginCollapsingItem): number {
+export function getMarginTop(item: MCItem): number {
   return item.marginTop ?? item.marginVertical ?? 0;
 }
 
-export function getMarginBottom(item: MarginCollapsingItem): number {
+export function getMarginBottom(item: MCItem): number {
   return item.marginBottom ?? item.marginVertical ?? 0;
 }
 
-export function getPreviousNonZeroItem<T extends MarginCollapsingItem>(
+export function getPreviousNonZeroItem<T extends MCItem>(
   items: ArrayLike<T>,
   isHiddenMap: Record<string, boolean>,
   startIndex: number
@@ -27,7 +27,7 @@ export function getPreviousNonZeroItem<T extends MarginCollapsingItem>(
   return null;
 }
 
-export function getNextNonZeroItem<T extends MarginCollapsingItem>(
+export function getNextNonZeroItem<T extends MCItem>(
   items: ArrayLike<T>,
   isHiddenMap: Record<string, boolean>,
   startIndex: number
@@ -43,7 +43,7 @@ export function getNextNonZeroItem<T extends MarginCollapsingItem>(
 }
 
 export function validateKeyUniqueness(
-  items: Readonly<ArrayLike<MarginCollapsingItem>>
+  items: Readonly<ArrayLike<MCItem>>
 ): void {
   const keySet = new Map<string, number>();
   for (let i = 0; i < items.length; i++) {
@@ -60,7 +60,7 @@ export function validateKeyUniqueness(
 }
 
 type CalculateChildViewOptions = {
-  items: ArrayLike<MarginCollapsingItem>;
+  items: ArrayLike<MCItem>;
   index: number;
   isHiddenMap: Record<string, boolean>;
   onRequestRender: () => void;
