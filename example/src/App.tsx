@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { StackExample } from './StackExample';
 import { FlatListExample } from './FlatListExample';
+import { StackExample } from './StackExample';
 
 export default function App() {
   return (
