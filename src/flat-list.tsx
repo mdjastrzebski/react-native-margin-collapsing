@@ -3,6 +3,7 @@ import {
   FlatList,
   type FlatListProps,
   type ListRenderItemInfo,
+  type ViewStyle,
 } from 'react-native';
 
 import type { MCItem } from './types';
@@ -15,19 +16,17 @@ export interface MCFlatListItem<T> extends MCItem {
 type MCListRenderItemInfo<T> = ListRenderItemInfo<MCFlatListItem<T>>;
 
 export type MCFlatListProps<T> = FlatListProps<MCFlatListItem<T>> & {
-  debug?: boolean;
+  itemWrapperStyle?:
+    | ViewStyle
+    | ((item: MCFlatListItem<T>, index: number) => ViewStyle);
 };
 
 export function MCFlatList<T>({
   data,
   renderItem,
-  debug,
+  itemWrapperStyle,
   ...restProps
 }: MCFlatListProps<T>) {
-  if (debug) {
-    console.log('Rendering Container...');
-  }
-
   if (__DEV__ && data) {
     validateKeyUniqueness(data);
   }
@@ -46,7 +45,7 @@ export function MCFlatList<T>({
       index: info.index,
       isHiddenMap,
       onRequestRender: () => forceRerender({}),
-      debug,
+      itemWrapperStyle,
     });
   };
 

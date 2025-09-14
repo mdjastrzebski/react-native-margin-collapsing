@@ -6,8 +6,6 @@ export interface MCItem {
   marginBottom?: number;
 }
 
-export interface ItemStyle {
-  paddingTop?: number;
-  paddingBottom?: number;
-  backgroundColor?: string;
-}
+export type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
+};

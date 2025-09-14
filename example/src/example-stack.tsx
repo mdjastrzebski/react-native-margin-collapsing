@@ -1,5 +1,6 @@
 import { MCStack } from 'react-native-margin-collapsing';
 
+import { DEBUG_COLORS } from './debug';
 import { PressToHideText } from './press-to-hide';
 
 export function ExampleStack() {
@@ -32,7 +33,9 @@ export function ExampleStack() {
           marginVertical: 20,
         },
       ]}
-      debug
+      itemWrapperStyle={(_item, index) => ({
+        backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
+      })}
     />
   );
 }

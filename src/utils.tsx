@@ -1,7 +1,6 @@
-import { type LayoutChangeEvent, View } from 'react-native';
+import { type LayoutChangeEvent, View, type ViewStyle } from 'react-native';
 
-import { DEBUG_COLORS } from './constants';
-import type { ItemStyle, MCItem } from './types';
+import type { MCItem, Mutable } from './types';
 import { MCError } from './utils/error';
 
 export function getMarginTop(item: MCItem): number {
@@ -59,27 +58,39 @@ export function validateKeyUniqueness(
   }
 }
 
-type WrapElementOptions = {
+type WrapElementOptions<T extends MCItem> = {
   /** Items array containing: key and sizing data */
-  items: ArrayLike<MCItem>;
+  items: ArrayLike<T>;
   /** Index of current item in the `items` array */
   index: number;
   /** Map of item keys to boolean indicating if the view is to be hidden */
   isHiddenMap: Record<string, boolean>;
   /** Callback allowing to request the render in the parent component */
   onRequestRender: () => void;
-  /** If true, applies debug colors to item backgrounds */
-  debug?: boolean;
+
+  itemWrapperStyle?: ViewStyle | ((item: T, index: number) => ViewStyle);
 };
 
-export function wrapElement(
+export function wrapElement<T extends MCItem>(
   element: React.ReactNode,
-  { items, index, isHiddenMap, onRequestRender, debug }: WrapElementOptions
+  {
+    items,
+    index,
+    isHiddenMap,
+    onRequestRender,
+    itemWrapperStyle,
+  }: WrapElementOptions<T>
 ): React.ReactNode {
   const currentItem = items[index]!;
   const key = currentItem.key;
 
-  const style: ItemStyle = {};
+  const baseStyle =
+    typeof itemWrapperStyle === 'function'
+      ? itemWrapperStyle(currentItem, index)
+      : itemWrapperStyle;
+  console.log('baseStyle', baseStyle);
+
+  const style: Mutable<ViewStyle> = { ...baseStyle };
   if (isHiddenMap[key]) {
     style.paddingTop = 0;
     style.paddingBottom = 0;
@@ -102,22 +113,12 @@ export function wrapElement(
     }
   }
 
-  if (debug) {
-    style.backgroundColor = DEBUG_COLORS[index % DEBUG_COLORS.length];
-  }
-
   const handleLayout = (event: LayoutChangeEvent) => {
     const isHidden = event.nativeEvent.layout.height === 0;
     const isHiddenOld = !!isHiddenMap[key];
 
     isHiddenMap[key] = isHidden;
     if (isHidden !== isHiddenOld) {
-      if (debug) {
-        console.log(
-          `Item ${currentItem.key} hidden state changed: ${isHidden} (height: ${event.nativeEvent.layout.height})`
-        );
-      }
-
       onRequestRender();
     }
   };
