@@ -1,16 +1,16 @@
-import { StyleSheet, View, type ViewProps } from 'react-native';
+import * as React from 'react';
+import { View, type ViewProps } from 'react-native';
 
-import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
-import { getMarginBottom, getMarginTop } from './utils';
+import type { MarginCollapsingItem } from './types';
+import { validateKeyUniqueness, wrapElement } from './utils';
 
-export interface MarginCollapsingItem extends MarginCollapsibleLayoutProps {
-  key: string;
+export interface MarginCollapsingContainerItem extends MarginCollapsingItem {
   content?: React.ReactNode;
 }
 
 export interface MarginCollapsingContainerProps
   extends Omit<ViewProps, 'children'> {
-  items: MarginCollapsingItem[];
+  items: MarginCollapsingContainerItem[];
   debug?: boolean;
 }
 
@@ -19,61 +19,27 @@ export function MarginCollapsingContainer({
   debug,
   ...restProps
 }: MarginCollapsingContainerProps) {
-  return <View {...restProps}>{calculateChildViews(items, debug)}</View>;
-}
-
-function calculateChildViews(
-  items: MarginCollapsingItem[],
-  debug?: boolean
-): React.ReactNode[] {
-  const result: React.ReactNode[] = [];
-
-  for (let i = 0; i < items.length; i++) {
-    const previousItem = items[i - 1];
-    const currentItem = items[i]!;
-    const nextItem = items[i + 1];
-
-    const style: ItemStyle = {};
-    if (!previousItem) {
-      style.paddingTop = getMarginTop(currentItem);
-    } else {
-      style.paddingTop =
-        Math.max(getMarginBottom(previousItem), getMarginTop(currentItem)) / 2;
-    }
-
-    if (!nextItem) {
-      style.paddingBottom = getMarginBottom(currentItem);
-    } else {
-      style.paddingBottom =
-        Math.max(getMarginTop(nextItem), getMarginBottom(currentItem)) / 2;
-    }
-
-    if (debug) {
-      style.backgroundColor =
-        i % 2 === 0
-          ? styles.debugItem.backgroundColor
-          : styles.debugItemAlt.backgroundColor;
-    }
-
-    result.push(
-      <View
-        key={currentItem.key}
-        style={style}
-        testID={`margin-collapsing-item-${currentItem.key}`}
-      >
-        {currentItem.content}
-      </View>
-    );
+  if (debug) {
+    console.log('Rendering Container...');
   }
 
-  return result;
-}
+  if (__DEV__) {
+    validateKeyUniqueness(items);
+  }
 
-const styles = StyleSheet.create({
-  debugItem: {
-    backgroundColor: 'orange',
-  },
-  debugItemAlt: {
-    backgroundColor: 'lightblue',
-  },
-});
+  // Hold a map of zero-sized (hidden) items to avoid taking them into account during margin collapsing.
+  const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
+  const [, forceRerender] = React.useState({});
+
+  const children = items.map((item, index) =>
+    wrapElement(item.content, {
+      items,
+      index,
+      isHiddenMap,
+      onRequestRender: () => forceRerender({}),
+      debug,
+    })
+  );
+
+  return <View {...restProps}>{children}</View>;
+}

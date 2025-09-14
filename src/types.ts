@@ -1,4 +1,6 @@
-export interface MarginCollapsibleLayoutProps {
+export interface MarginCollapsingItem {
+  key: string;
+
   marginVertical?: number;
   marginTop?: number;
   marginBottom?: number;

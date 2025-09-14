@@ -1,22 +1,29 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { MarginCollapsingContainer } from 'react-native-margin-collapsing';
+
+import { PressToHideText } from './PressToHide';
 
 export function ContainerExample() {
   const containerItems = [
     {
       key: '1',
-      content: <Text style={styles.item}>Item 1</Text>,
+      content: <PressToHideText>Margin: 10</PressToHideText>,
       marginVertical: 10,
     },
     {
       key: '2',
-      content: <Text style={styles.item}>Item 2</Text>,
+      content: <PressToHideText>Margin: 20</PressToHideText>,
       marginVertical: 20,
     },
     {
       key: '3',
-      content: <Text style={styles.item}>Item 3</Text>,
-      marginVertical: 30,
+      content: <PressToHideText>Margin: 10</PressToHideText>,
+      marginVertical: 10,
+    },
+    {
+      key: '4',
+      content: <PressToHideText>Margin: 20</PressToHideText>,
+      marginVertical: 20,
     },
   ];
 
@@ -31,7 +38,4 @@ export function ContainerExample() {
 
 const styles = StyleSheet.create({
   container: {},
-  item: {
-    backgroundColor: 'grey',
-  },
 });

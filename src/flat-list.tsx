@@ -1,18 +1,15 @@
+import * as React from 'react';
 import {
   FlatList,
   type FlatListProps,
   type ListRenderItem,
   type ListRenderItemInfo,
-  StyleSheet,
-  View,
 } from 'react-native';
 
-import type { ItemStyle, MarginCollapsibleLayoutProps } from './types';
-import { getMarginBottom, getMarginTop } from './utils';
+import type { MarginCollapsingItem } from './types';
+import { validateKeyUniqueness, wrapElement } from './utils';
 
-export interface MarginCollapsibleFlatListItem<T>
-  extends MarginCollapsibleLayoutProps {
-  key: string;
+export interface MarginCollapsibleFlatListItem<T> extends MarginCollapsingItem {
   data: T;
 }
 
@@ -25,55 +22,36 @@ export type MarginCollapsingFlatListProps<T> = FlatListProps<
 export function MarginCollapsingFlatList<T>({
   data,
   renderItem,
+  debug,
   ...restProps
 }: MarginCollapsingFlatListProps<T>) {
+  if (debug) {
+    console.log('Rendering Container...');
+  }
+
+  if (__DEV__ && data) {
+    validateKeyUniqueness(data);
+  }
+
+  // Hold a map of zero-sized (hidden) items to avoid taking them into account during margin collapsing.
+  const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
+  const [, forceRerender] = React.useState({});
+
   const _renderItem: ListRenderItem<MarginCollapsibleFlatListItem<T>> = (
     info: ListRenderItemInfo<MarginCollapsibleFlatListItem<T>>
   ) => {
-    const previousItem = data?.[info.index - 1];
-    const nextItem = data?.[info.index + 1];
-
-    const style: ItemStyle = {};
-    if (!previousItem) {
-      style.paddingTop = getMarginTop(info.item);
-    } else {
-      style.paddingTop =
-        Math.max(getMarginBottom(previousItem), getMarginTop(info.item)) / 2;
-    }
-
-    if (!nextItem) {
-      style.paddingBottom = getMarginBottom(info.item);
-    } else {
-      style.paddingBottom =
-        Math.max(getMarginTop(nextItem), getMarginBottom(info.item)) / 2;
-    }
-
-    if (restProps.debug) {
-      style.backgroundColor =
-        info.index % 2 === 0
-          ? styles.debugItem.backgroundColor
-          : styles.debugItemAlt.backgroundColor;
-    }
-
-    if (!renderItem) {
+    if (!renderItem || !data) {
       return null;
     }
 
-    return (
-      <View style={style} testID={`margin-collapsing-item-${info.item.key}`}>
-        {renderItem(info)}
-      </View>
-    );
+    return wrapElement(renderItem(info), {
+      items: data,
+      index: info.index,
+      isHiddenMap,
+      onRequestRender: () => forceRerender({}),
+      debug,
+    });
   };
 
   return <FlatList {...restProps} data={data} renderItem={_renderItem} />;
 }
-
-const styles = StyleSheet.create({
-  debugItem: {
-    backgroundColor: 'orange',
-  },
-  debugItemAlt: {
-    backgroundColor: 'lightblue',
-  },
-});
