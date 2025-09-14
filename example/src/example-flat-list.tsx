@@ -8,7 +8,7 @@ import { PressToHideText } from './press-to-hide';
 
 type Item = MCFlatListItem<{ title: string }>;
 
-export function ExampleFlatList() {
+export function ExampleFlatList({ debug }: { debug?: boolean }) {
   const data: Item[] = [
     {
       key: '1',
@@ -45,9 +45,13 @@ export function ExampleFlatList() {
     <MCFlatList
       data={data}
       renderItem={renderItem}
-      itemWrapperStyle={(_item, index) => ({
-        backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
-      })}
+      itemWrapperStyle={
+        debug
+          ? (_item, index) => ({
+              backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
+            })
+          : undefined
+      }
     />
   );
 }
