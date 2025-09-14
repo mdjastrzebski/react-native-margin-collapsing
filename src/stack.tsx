@@ -1,26 +1,21 @@
 import * as React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import type { MarginCollapsingItem } from './types';
+import type { MCItem } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
 
-export interface MarginCollapsingContainerItem extends MarginCollapsingItem {
+export interface MCStackItem extends MCItem {
   content?: React.ReactNode;
 }
 
-export interface MarginCollapsingContainerProps
-  extends Omit<ViewProps, 'children'> {
-  items: MarginCollapsingContainerItem[];
+export interface MCStackProps extends Omit<ViewProps, 'children'> {
+  items: MCStackItem[];
   debug?: boolean;
 }
 
-export function MarginCollapsingContainer({
-  items,
-  debug,
-  ...restProps
-}: MarginCollapsingContainerProps) {
+export function MCStack({ items, debug, ...restProps }: MCStackProps) {
   if (debug) {
-    console.log('Rendering Container...');
+    console.log('Rendering Stack...');
   }
 
   if (__DEV__) {

@@ -2,29 +2,28 @@ import * as React from 'react';
 import {
   FlatList,
   type FlatListProps,
-  type ListRenderItem,
   type ListRenderItemInfo,
 } from 'react-native';
 
-import type { MarginCollapsingItem } from './types';
+import type { MCItem } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
 
-export interface MarginCollapsibleFlatListItem<T> extends MarginCollapsingItem {
+export interface MCFlatListItem<T> extends MCItem {
   data: T;
 }
 
-export type MarginCollapsingFlatListProps<T> = FlatListProps<
-  MarginCollapsibleFlatListItem<T>
-> & {
+type MCListRenderItemInfo<T> = ListRenderItemInfo<MCFlatListItem<T>>;
+
+export type MCFlatListProps<T> = FlatListProps<MCFlatListItem<T>> & {
   debug?: boolean;
 };
 
-export function MarginCollapsingFlatList<T>({
+export function MCFlatList<T>({
   data,
   renderItem,
   debug,
   ...restProps
-}: MarginCollapsingFlatListProps<T>) {
+}: MCFlatListProps<T>) {
   if (debug) {
     console.log('Rendering Container...');
   }
@@ -37,9 +36,7 @@ export function MarginCollapsingFlatList<T>({
   const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
   const [, forceRerender] = React.useState({});
 
-  const _renderItem: ListRenderItem<MarginCollapsibleFlatListItem<T>> = (
-    info: ListRenderItemInfo<MarginCollapsibleFlatListItem<T>>
-  ) => {
+  const _renderItem = (info: MCListRenderItemInfo<T>) => {
     if (!renderItem || !data) {
       return null;
     }

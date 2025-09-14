@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { ContainerExample } from './ContainerExample';
-import { FlatListExample } from './FlatListExample';
+import { ExampleFlatList } from './example-flat-list';
+import { ExampleStack } from './example-stack';
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.screen}>
-        <ContainerExample />
-        <FlatListExample />
+        <ExampleStack />
+        <ExampleFlatList />
       </SafeAreaView>
     </SafeAreaProvider>
   );

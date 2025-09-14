@@ -1,4 +1,4 @@
-export interface MarginCollapsingItem {
+export interface MCItem {
   key: string;
 
   marginVertical?: number;

@@ -1,18 +1,18 @@
 import { type LayoutChangeEvent, View } from 'react-native';
 
 import { DEBUG_COLORS } from './constants';
-import type { ItemStyle, MarginCollapsingItem } from './types';
+import type { ItemStyle, MCItem } from './types';
 import { MCError } from './utils/error';
 
-export function getMarginTop(item: MarginCollapsingItem): number {
+export function getMarginTop(item: MCItem): number {
   return item.marginTop ?? item.marginVertical ?? 0;
 }
 
-export function getMarginBottom(item: MarginCollapsingItem): number {
+export function getMarginBottom(item: MCItem): number {
   return item.marginBottom ?? item.marginVertical ?? 0;
 }
 
-export function getPreviousNonZeroItem<T extends MarginCollapsingItem>(
+export function getPreviousNonZeroItem<T extends MCItem>(
   items: ArrayLike<T>,
   isHiddenMap: Record<string, boolean>,
   startIndex: number
@@ -27,7 +27,7 @@ export function getPreviousNonZeroItem<T extends MarginCollapsingItem>(
   return null;
 }
 
-export function getNextNonZeroItem<T extends MarginCollapsingItem>(
+export function getNextNonZeroItem<T extends MCItem>(
   items: ArrayLike<T>,
   isHiddenMap: Record<string, boolean>,
   startIndex: number
@@ -43,7 +43,7 @@ export function getNextNonZeroItem<T extends MarginCollapsingItem>(
 }
 
 export function validateKeyUniqueness(
-  items: Readonly<ArrayLike<MarginCollapsingItem>>
+  items: Readonly<ArrayLike<MCItem>>
 ): void {
   const keySet = new Map<string, number>();
   for (let i = 0; i < items.length; i++) {
@@ -59,50 +59,47 @@ export function validateKeyUniqueness(
   }
 }
 
-type CalculateChildViewOptions = {
-  items: ArrayLike<MarginCollapsingItem>;
+type WrapElementOptions = {
+  /** Items array containing: key and sizing data */
+  items: ArrayLike<MCItem>;
+  /** Index of current item in the `items` array */
   index: number;
+  /** Map of item keys to boolean indicating if the view is to be hidden */
   isHiddenMap: Record<string, boolean>;
+  /** Callback allowing to request the render in the parent component */
   onRequestRender: () => void;
+  /** If true, applies debug colors to item backgrounds */
   debug?: boolean;
 };
 
 export function wrapElement(
   element: React.ReactNode,
-  {
-    items,
-    index,
-    isHiddenMap,
-    onRequestRender,
-    debug,
-  }: CalculateChildViewOptions
+  { items, index, isHiddenMap, onRequestRender, debug }: WrapElementOptions
 ): React.ReactNode {
   const currentItem = items[index]!;
-  const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
-  const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
-
-  const style: ItemStyle = {};
-
-  if (!previousItem) {
-    style.paddingTop = getMarginTop(currentItem);
-  } else {
-    style.paddingTop =
-      Math.max(getMarginTop(currentItem), getMarginBottom(previousItem)) / 2;
-  }
-
-  if (!nextItem) {
-    style.paddingBottom = getMarginBottom(currentItem);
-  } else {
-    style.paddingBottom =
-      Math.max(getMarginBottom(currentItem), getMarginTop(nextItem)) / 2;
-  }
-
   const key = currentItem.key;
 
+  const style: ItemStyle = {};
   if (isHiddenMap[key]) {
-    console.log('Skipping ', key);
     style.paddingTop = 0;
     style.paddingBottom = 0;
+  } else {
+    const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
+    const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
+
+    if (!previousItem) {
+      style.paddingTop = getMarginTop(currentItem);
+    } else {
+      style.paddingTop =
+        Math.max(getMarginTop(currentItem), getMarginBottom(previousItem)) / 2;
+    }
+
+    if (!nextItem) {
+      style.paddingBottom = getMarginBottom(currentItem);
+    } else {
+      style.paddingBottom =
+        Math.max(getMarginBottom(currentItem), getMarginTop(nextItem)) / 2;
+    }
   }
 
   if (debug) {
@@ -115,9 +112,11 @@ export function wrapElement(
 
     isHiddenMap[key] = isHidden;
     if (isHidden !== isHiddenOld) {
-      console.log(
-        `Item ${currentItem.key} hidden state changed: ${isHidden} (height: ${event.nativeEvent.layout.height})`
-      );
+      if (debug) {
+        console.log(
+          `Item ${currentItem.key} hidden state changed: ${isHidden} (height: ${event.nativeEvent.layout.height})`
+        );
+      }
 
       onRequestRender();
     }
