@@ -1,43 +1,30 @@
 {
   "name": "react-native-margin-collapsing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Margin Collapsing for React Native",
-  "main": "./lib/module/index.js",
-  "types": "./lib/typescript/src/index.d.ts",
+  "main": "./dist/module/index.js",
+  "types": "./dist/typescript/src/index.d.ts",
   "exports": {
     ".": {
       "source": "./src/index.tsx",
-      "types": "./lib/typescript/src/index.d.ts",
-      "default": "./lib/module/index.js"
+      "types": "./dist/typescript/src/index.d.ts",
+      "default": "./dist/module/index.js"
     },
     "./package.json": "./package.json"
   },
   "files": [
-    "src",
-    "lib",
-    "android",
-    "ios",
-    "cpp",
-    "*.podspec",
-    "react-native.config.js",
-    "!ios/build",
-    "!android/build",
-    "!android/gradle",
-    "!android/gradlew",
-    "!android/gradlew.bat",
-    "!android/local.properties",
+    "dist",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
-    "!**/.*"
   ],
   "scripts": {
     "example": "yarn workspace react-native-margin-collapsing-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli lib",
-    "prepare": "bob build",
+    "clean": "del-cli dist",
+    "build": "bob build",
     "release": "release-it",
     "validate": "yarn lint && yarn test && yarn typecheck"
   },
@@ -96,7 +83,7 @@
     "preset": "react-native",
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
+      "<rootDir>/dist/"
     ]
   },
   "prettier": {
@@ -108,7 +95,7 @@
   },
   "react-native-builder-bob": {
     "source": "src",
-    "output": "lib",
+    "output": "dist",
     "targets": [
       [
         "module",
