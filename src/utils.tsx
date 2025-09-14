@@ -1,6 +1,6 @@
 import { type LayoutChangeEvent, View } from 'react-native';
 
-import { DEBUG_COLORS } from './stack';
+import { DEBUG_COLORS } from './constants';
 import type { ItemStyle, MCItem } from './types';
 import { MCError } from './utils/error';
 
