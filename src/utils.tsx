@@ -59,50 +59,47 @@ export function validateKeyUniqueness(
   }
 }
 
-type CalculateChildViewOptions = {
+type WrapElementOptions = {
+  /** Items array containing: key and sizing data */
   items: ArrayLike<MCItem>;
+  /** Index of current item in the `items` array */
   index: number;
+  /** Map of item keys to boolean indicating if the view is to be hidden */
   isHiddenMap: Record<string, boolean>;
+  /** Callback allowing to request the render in the parent component */
   onRequestRender: () => void;
+  /** If true, applies debug colors to item backgrounds */
   debug?: boolean;
 };
 
 export function wrapElement(
   element: React.ReactNode,
-  {
-    items,
-    index,
-    isHiddenMap,
-    onRequestRender,
-    debug,
-  }: CalculateChildViewOptions
+  { items, index, isHiddenMap, onRequestRender, debug }: WrapElementOptions
 ): React.ReactNode {
   const currentItem = items[index]!;
-  const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
-  const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
-
-  const style: ItemStyle = {};
-
-  if (!previousItem) {
-    style.paddingTop = getMarginTop(currentItem);
-  } else {
-    style.paddingTop =
-      Math.max(getMarginTop(currentItem), getMarginBottom(previousItem)) / 2;
-  }
-
-  if (!nextItem) {
-    style.paddingBottom = getMarginBottom(currentItem);
-  } else {
-    style.paddingBottom =
-      Math.max(getMarginBottom(currentItem), getMarginTop(nextItem)) / 2;
-  }
-
   const key = currentItem.key;
 
+  const style: ItemStyle = {};
   if (isHiddenMap[key]) {
-    console.log('Skipping ', key);
     style.paddingTop = 0;
     style.paddingBottom = 0;
+  } else {
+    const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
+    const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
+
+    if (!previousItem) {
+      style.paddingTop = getMarginTop(currentItem);
+    } else {
+      style.paddingTop =
+        Math.max(getMarginTop(currentItem), getMarginBottom(previousItem)) / 2;
+    }
+
+    if (!nextItem) {
+      style.paddingBottom = getMarginBottom(currentItem);
+    } else {
+      style.paddingBottom =
+        Math.max(getMarginBottom(currentItem), getMarginTop(nextItem)) / 2;
+    }
   }
 
   if (debug) {
@@ -115,9 +112,11 @@ export function wrapElement(
 
     isHiddenMap[key] = isHidden;
     if (isHidden !== isHiddenOld) {
-      console.log(
-        `Item ${currentItem.key} hidden state changed: ${isHidden} (height: ${event.nativeEvent.layout.height})`
-      );
+      if (debug) {
+        console.log(
+          `Item ${currentItem.key} hidden state changed: ${isHidden} (height: ${event.nativeEvent.layout.height})`
+        );
+      }
 
       onRequestRender();
     }
