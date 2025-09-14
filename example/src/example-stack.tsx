@@ -33,6 +33,7 @@ export function ExampleStack({ debug }: { debug?: boolean }) {
           marginVertical: 20,
         },
       ]}
+      style={styles.stack}
       itemWrapperStyle={debug ? debugItemWrapperStyle : undefined}
     />
   );
@@ -41,3 +42,10 @@ export function ExampleStack({ debug }: { debug?: boolean }) {
 const debugItemWrapperStyle = (_item: MCStackItem, index: number) => ({
   backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
 });
+
+const styles = {
+  stack: {
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+};
