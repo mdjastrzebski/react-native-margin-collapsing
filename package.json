@@ -16,7 +16,7 @@
     "dist",
     "!**/__tests__",
     "!**/__fixtures__",
-    "!**/__mocks__",
+    "!**/__mocks__"
   ],
   "scripts": {
     "example": "yarn workspace react-native-margin-collapsing-example",
