@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "before:init": "yarn validate",
+    "before:init": ["yarn validate', 'yarn clean"],
     "after:bump": "yarn build",
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
   },
