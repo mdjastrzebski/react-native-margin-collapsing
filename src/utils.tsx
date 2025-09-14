@@ -88,7 +88,6 @@ export function wrapElement<T extends MCItem>(
     typeof itemWrapperStyle === 'function'
       ? itemWrapperStyle(currentItem, index)
       : itemWrapperStyle;
-  console.log('baseStyle', baseStyle);
 
   const style: Mutable<ViewStyle> = { ...baseStyle };
   if (isHiddenMap[key]) {
@@ -101,14 +100,6 @@ export function wrapElement<T extends MCItem>(
     style.paddingTop = calculateTopMargin(currentItem, previousItem);
     style.paddingBottom = calculateBottomMargin(currentItem, nextItem);
   }
-
-  console.log(
-    'Item key:',
-    key,
-    'style:',
-    style.paddingTop,
-    style.paddingBottom
-  );
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const isHidden = event.nativeEvent.layout.height === 0;
