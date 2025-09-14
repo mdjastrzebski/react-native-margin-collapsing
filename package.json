@@ -1,6 +1,6 @@
 {
   "name": "react-native-margin-collapsing",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Margin Collapsing for React Native",
   "main": "./dist/module/index.js",
   "types": "./dist/typescript/src/index.d.ts",
