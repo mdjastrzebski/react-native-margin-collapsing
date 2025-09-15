@@ -8,7 +8,13 @@ import { PressToHideText } from './press-to-hide';
 
 type Item = MCFlatListItem<{ title: string }>;
 
-export function ExampleFlatList({ debug }: { debug?: boolean }) {
+export function ExampleFlatList({
+  marginCollapse,
+  debug,
+}: {
+  marginCollapse?: boolean;
+  debug?: boolean;
+}) {
   const data: Item[] = [
     {
       key: '1',
@@ -45,6 +51,7 @@ export function ExampleFlatList({ debug }: { debug?: boolean }) {
     <MCFlatList
       data={data}
       renderItem={renderItem}
+      marginCollapse={marginCollapse}
       style={styles.list}
       itemWrapperStyle={debug ? debugItemWrapperStyle : undefined}
     />

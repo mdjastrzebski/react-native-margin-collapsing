@@ -59,6 +59,8 @@ export function validateKeyUniqueness(
 }
 
 type WrapElementOptions<T extends MCItem> = {
+  marginCollapse?: boolean;
+
   /** Items array containing: key and sizing data */
   items: ArrayLike<T>;
   /** Index of current item in the `items` array */
@@ -79,6 +81,7 @@ export function wrapElement<T extends MCItem>(
     isHiddenMap,
     onRequestRender,
     itemWrapperStyle,
+    marginCollapse,
   }: WrapElementOptions<T>
 ): React.ReactNode {
   const currentItem = items[index]!;
@@ -94,11 +97,16 @@ export function wrapElement<T extends MCItem>(
     style.paddingTop = 0;
     style.paddingBottom = 0;
   } else {
-    const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
-    const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
+    if (marginCollapse) {
+      const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
+      const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
 
-    style.paddingTop = calculateTopMargin(currentItem, previousItem);
-    style.paddingBottom = calculateBottomMargin(currentItem, nextItem);
+      style.paddingTop = calculateTopMargin(currentItem, previousItem);
+      style.paddingBottom = calculateBottomMargin(currentItem, nextItem);
+    } else {
+      style.paddingTop = getMarginTop(currentItem);
+      style.paddingBottom = getMarginBottom(currentItem);
+    }
   }
 
   const handleLayout = (event: LayoutChangeEvent) => {

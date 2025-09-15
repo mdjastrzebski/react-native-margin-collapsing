@@ -16,6 +16,7 @@ export interface MCFlatListItem<T> extends MCItem {
 type MCListRenderItemInfo<T> = ListRenderItemInfo<MCFlatListItem<T>>;
 
 export type MCFlatListProps<T> = FlatListProps<MCFlatListItem<T>> & {
+  marginCollapse?: boolean;
   itemWrapperStyle?:
     | ViewStyle
     | ((item: MCFlatListItem<T>, index: number) => ViewStyle);
@@ -24,6 +25,7 @@ export type MCFlatListProps<T> = FlatListProps<MCFlatListItem<T>> & {
 export function MCFlatList<T>({
   data,
   renderItem,
+  marginCollapse,
   itemWrapperStyle,
   ...restProps
 }: MCFlatListProps<T>) {
@@ -41,6 +43,7 @@ export function MCFlatList<T>({
     }
 
     return wrapElement(renderItem(info), {
+      marginCollapse,
       items: data,
       index: info.index,
       isHiddenMap,

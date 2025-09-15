@@ -6,21 +6,24 @@ import { ExampleFlatList } from './example-flat-list';
 import { ExampleStack } from './example-stack';
 
 export default function App() {
+  const [marginCollapse, setMarginCollapse] = React.useState(true);
   const [debug, setDebug] = React.useState(false);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.screen}>
-        <View>
+        <View style={styles.panel}>
+          <Text style={styles.label}>Margin Collapse</Text>
+          <Switch value={marginCollapse} onValueChange={setMarginCollapse} />
           <Text style={styles.label}>Debug</Text>
           <Switch value={debug} onValueChange={setDebug} />
         </View>
 
         <Text style={styles.title}>Stack</Text>
-        <ExampleStack debug={debug} />
+        <ExampleStack marginCollapse={marginCollapse} debug={debug} />
 
         <Text style={styles.title}>Flat List</Text>
-        <ExampleFlatList debug={debug} />
+        <ExampleFlatList marginCollapse={marginCollapse} debug={debug} />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -33,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 20,
   },
+  panel: { flexDirection: 'row', alignItems: 'center', padding: 10, gap: 10 },
   title: { fontSize: 20, fontWeight: 'bold' },
   label: { fontSize: 16 },
 });
