@@ -1,4 +1,4 @@
-export interface MCItem {
+export interface ItemProps {
   key: string;
 
   marginVertical?: number;

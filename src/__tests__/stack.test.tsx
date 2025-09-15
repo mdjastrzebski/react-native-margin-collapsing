@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
-import { MCStack } from '../stack';
+import { VStack } from '../stack';
 
 test('MarginCollapsingContainer calculates margins correctly', () => {
   // Arrange
@@ -12,7 +12,7 @@ test('MarginCollapsingContainer calculates margins correctly', () => {
   ];
 
   // Act
-  render(<MCStack items={items} />);
+  render(<VStack items={items} />);
 
   // Assert
   expect(screen.getByText('Item 1')).toBeOnTheScreen();
@@ -40,7 +40,7 @@ test('MarginCollapsingContainer calculates margins correctly for one item', () =
   ];
 
   // Act
-  render(<MCStack items={items} />);
+  render(<VStack items={items} />);
 
   // Assert
   expect(screen.getByText('Item 1')).toBeOnTheScreen();
@@ -58,7 +58,7 @@ test('MarginCollapsingContainer calculates margins correctly for two items', () 
   ];
 
   // Act
-  render(<MCStack items={items} />);
+  render(<VStack items={items} />);
 
   // Assert
   expect(screen.getByText('Item 1')).toBeOnTheScreen();

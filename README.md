@@ -1,6 +1,6 @@
 # React Native Margin Collapsing
 
-Zero-dependency margin-collapsing views for React Native: `Stack`, `FlatList`.
+Zero-dependency margin-collapsing views for React Native: `VStack` (`View`), `FlatList`.
 
 ### What is margin collapsing?
 
@@ -23,11 +23,11 @@ npm install react-native-margin-collapsing
 ### Stack View
 
 ```tsx
-import { MCStack } from 'react-native-margin-collapsing';
+import { VStack } from 'react-native-margin-collapsing';
 
 function StackExample() {
   return (
-    <MCStack
+    <VStack
       items={[
         {
           key: 'item-1',
@@ -53,34 +53,36 @@ function StackExample() {
 ### FlatList
 
 ```tsx
-import { MCFlatList } from 'react-native-margin-collapsing';
+import { FlatList } from 'react-native-margin-collapsing';
+
+const data: Item[] = [
+  {
+    key: 'item-1',
+    data: { title: 'Item 1' },
+    marginVertical: 20,
+  },
+  {
+    key: '2',
+    data: { title: 'Item 2' },
+    marginVertical: 0,
+  },
+  {
+    key: '3',
+    data: { title: 'Item 3' },
+    marginVertical: 10,
+  },
+];
 
 function FlatListExample() {
-  const data: Item[] = [
-    {
-      key: 'item-1',
-      data: { title: 'Item 1' },
-      marginVertical: 20,
-    },
-    {
-      key: '2',
-      data: { title: 'Item 2' },
-      marginVertical: 0,
-    },
-    {
-      key: '3',
-      data: { title: 'Item 3' },
-      marginVertical: 10,
-    },
-  ];
-
   const renderItem = ({ item }: { item: Item }) => {
     return <Text>Margin: {item.marginVertical}</Text>;
   };
 
-  return <MCFlatList data={data} renderItem={renderItem} />;
+  return <FlatList data={data} renderItem={renderItem} />;
 }
 ```
+
+Note: `data` prop has slightly different shape then regular `FlatList`.
 
 ## Contributing
 

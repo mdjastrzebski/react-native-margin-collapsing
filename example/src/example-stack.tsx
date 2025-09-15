@@ -1,4 +1,4 @@
-import { MCStack, type MCStackItem } from 'react-native-margin-collapsing';
+import { VStack, type StackItem } from 'react-native-margin-collapsing';
 
 import { BACKGROUND_COLORS } from './constants';
 import { PressToHideText } from './press-to-hide';
@@ -11,7 +11,7 @@ export function ExampleStack({
   debug?: boolean;
 }) {
   return (
-    <MCStack
+    <VStack
       items={[
         {
           key: '1',
@@ -46,7 +46,7 @@ export function ExampleStack({
   );
 }
 
-const debugItemWrapperStyle = (_item: MCStackItem, index: number) => ({
+const debugItemWrapperStyle = (_item: StackItem, index: number) => ({
   backgroundColor: BACKGROUND_COLORS[index % BACKGROUND_COLORS.length],
 });
 
