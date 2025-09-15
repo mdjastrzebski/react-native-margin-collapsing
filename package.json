@@ -1,7 +1,7 @@
 {
   "name": "react-native-margin-collapsing",
   "version": "0.3.0",
-  "description": "Margin Collapsing for React Native",
+  "description": "Margin-collapsing views for React Native: VStack, FlatList.",
   "main": "./dist/module/index.js",
   "types": "./dist/typescript/src/index.d.ts",
   "exports": {
@@ -77,7 +77,7 @@
   "workspaces": [
     "example"
   ],
-  "packageManager": "yarn@3.6.1",
+  "packageManager": "yarn@4.9.4",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
