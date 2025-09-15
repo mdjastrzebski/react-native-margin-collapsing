@@ -1,4 +1,4 @@
-import { VStack, type StackItem } from 'react-native-margin-collapsing';
+import { type StackItem, VStack } from 'react-native-margin-collapsing';
 
 import { BACKGROUND_COLORS } from './constants';
 import { PressToHideText } from './press-to-hide';

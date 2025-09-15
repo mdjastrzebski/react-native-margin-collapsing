@@ -26,21 +26,6 @@ export function getPreviousValidItem<T extends ItemProps>(
   return null;
 }
 
-export function getNextValidItem<T extends ItemProps>(
-  items: ArrayLike<T>,
-  isExcludedMap: Record<string, boolean>,
-  startIndex: number
-): T | null {
-  for (let i = startIndex + 1; i < items.length; i++) {
-    const item = items[i]!;
-    if (!isExcludedMap[item.key]) {
-      return item;
-    }
-  }
-
-  return null;
-}
-
 export function validateKeyUniqueness(
   items: Readonly<ArrayLike<ItemProps>>
 ): void {
@@ -111,11 +96,11 @@ export function wrapElement<T extends ItemProps>(
   }
 
   const handleLayout = (event: LayoutChangeEvent) => {
-    const isHidden = event.nativeEvent.layout.height === 0;
-    const isHiddenOld = !!isExcludedMap[key];
+    const isExcluded = event.nativeEvent.layout.height === 0;
+    const isExcludedOld = !!isExcludedMap[key];
 
-    isExcludedMap[key] = isHidden;
-    if (isHidden !== isHiddenOld) {
+    isExcludedMap[key] = isExcluded;
+    if (isExcluded !== isExcludedOld) {
       onRequestRender();
     }
   };
