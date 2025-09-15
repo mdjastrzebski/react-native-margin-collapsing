@@ -7,16 +7,24 @@ import { ExampleStack } from './example-stack';
 
 export default function App() {
   const [marginCollapse, setMarginCollapse] = React.useState(true);
-  const [debug, setDebug] = React.useState(false);
+  const [debug, setDebug] = React.useState(true);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.screen}>
         <View style={styles.panel}>
-          <Text style={styles.label}>Margin Collapse</Text>
-          <Switch value={marginCollapse} onValueChange={setMarginCollapse} />
+          <Text style={styles.label}>Collapse Margins</Text>
+          <Switch
+            value={marginCollapse}
+            onValueChange={setMarginCollapse}
+            trackColor={{ true: '#69bffd' }}
+          />
           <Text style={styles.label}>Debug</Text>
-          <Switch value={debug} onValueChange={setDebug} />
+          <Switch
+            value={debug}
+            onValueChange={setDebug}
+            trackColor={{ true: '#69bffd' }}
+          />
         </View>
 
         <Text style={styles.title}>Stack</Text>
@@ -36,7 +44,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 20,
   },
-  panel: { flexDirection: 'row', alignItems: 'center', padding: 10, gap: 10 },
-  title: { fontSize: 20, fontWeight: 'bold' },
-  label: { fontSize: 16 },
+  panel: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    gap: 10,
+  },
+  title: { fontSize: 20, fontWeight: 'bold', paddingHorizontal: 16 },
+  label: { fontSize: 16, color: '#333' },
 });

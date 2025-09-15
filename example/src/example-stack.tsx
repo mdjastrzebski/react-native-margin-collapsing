@@ -52,7 +52,7 @@ const debugItemWrapperStyle = (_item: MCStackItem, index: number) => ({
 
 const styles = {
   stack: {
-    borderColor: 'black',
+    borderColor: 'lightgray',
     borderWidth: 1,
   },
 };

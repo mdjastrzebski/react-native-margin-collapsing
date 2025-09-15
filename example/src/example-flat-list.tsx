@@ -64,7 +64,7 @@ const debugItemWrapperStyle = (_item: Item, index: number) => ({
 
 const styles = {
   list: {
-    borderColor: 'black',
+    borderColor: 'lightgray',
     borderWidth: 1,
   },
 };
