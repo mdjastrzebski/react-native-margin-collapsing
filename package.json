@@ -1,7 +1,7 @@
 {
   "name": "react-native-margin-collapsing",
   "version": "0.3.0",
-  "description": "Margin-collapsing views for React Native: VStack, FlatList.",
+  "description": "React Native layout components (VStack, FlatList) with built-in margin collapsing.",
   "main": "./dist/module/index.js",
   "types": "./dist/typescript/src/index.d.ts",
   "exports": {
