@@ -1,12 +1,9 @@
-import {
-  MCFlatList,
-  type MCFlatListItem,
-} from 'react-native-margin-collapsing';
+import { FlatList, type FlatListItem } from 'react-native-margin-collapsing';
 
 import { BACKGROUND_COLORS } from './constants';
 import { PressToHideText } from './press-to-hide';
 
-type Item = MCFlatListItem<{ title: string }>;
+type Item = FlatListItem<{ title: string }>;
 
 export function ExampleFlatList({
   marginCollapse,
@@ -48,7 +45,7 @@ export function ExampleFlatList({
   };
 
   return (
-    <MCFlatList
+    <FlatList
       data={data}
       renderItem={renderItem}
       marginCollapse={marginCollapse}

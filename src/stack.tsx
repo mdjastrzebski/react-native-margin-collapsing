@@ -1,33 +1,41 @@
 import * as React from 'react';
 import { View, type ViewProps, type ViewStyle } from 'react-native';
 
-import type { MCItem } from './types';
+import type { ItemProps } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
 
-export interface MCStackItem extends MCItem {
+export interface StackItem extends ItemProps {
   content?: React.ReactNode;
 }
 
-export interface MCStackProps extends Omit<ViewProps, 'children'> {
+export interface StackProps extends Omit<ViewProps, 'children'> {
+  /** Items to be rendered in the stack */
+  items: StackItem[];
+
+  /** Whether margin collapsing is enabled */
   marginCollapse?: boolean;
-  items: MCStackItem[];
+
+  /** Optional style or style callback for the item wrapper */
   itemWrapperStyle?:
     | ViewStyle
-    | ((item: MCStackItem, index: number) => ViewStyle);
+    | ((item: StackItem, index: number) => ViewStyle);
 }
 
-export function MCStack({
+/**
+ * Vertical Stack that supports margin collapsing.
+ */
+export function VStack({
   items,
   marginCollapse = true,
   itemWrapperStyle,
   ...restProps
-}: MCStackProps) {
+}: StackProps) {
   if (__DEV__) {
     validateKeyUniqueness(items);
   }
 
   // Hold a map of zero-sized (hidden) items to avoid taking them into account during margin collapsing.
-  const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
+  const isExcludedMap = React.useRef<Record<string, boolean>>({}).current;
   const [, forceRerender] = React.useState({});
 
   const children = items.map((item, index) =>
@@ -35,7 +43,7 @@ export function MCStack({
       marginCollapse,
       items,
       index,
-      isHiddenMap,
+      isExcludedMap: isExcludedMap,
       onRequestRender: () => forceRerender({}),
       itemWrapperStyle,
     })

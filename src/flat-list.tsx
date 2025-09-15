@@ -1,34 +1,42 @@
 import * as React from 'react';
 import {
-  FlatList,
-  type FlatListProps,
-  type ListRenderItemInfo,
+  FlatList as RNFlatList,
+  type FlatListProps as RNFlatListProps,
+  type ListRenderItemInfo as RNListRenderItemInfo,
   type ViewStyle,
 } from 'react-native';
 
-import type { MCItem } from './types';
+import type { ItemProps } from './types';
 import { validateKeyUniqueness, wrapElement } from './utils';
 
-export interface MCFlatListItem<T> extends MCItem {
+export interface FlatListItem<T> extends ItemProps {
+  /** Item data to be rendered */
   data: T;
 }
 
-type MCListRenderItemInfo<T> = ListRenderItemInfo<MCFlatListItem<T>>;
+type ListRenderItemInfo<T> = RNListRenderItemInfo<FlatListItem<T>>;
 
-export type MCFlatListProps<T> = FlatListProps<MCFlatListItem<T>> & {
+export type FlatListProps<T> = RNFlatListProps<FlatListItem<T>> & {
+  /** Whether margin collapsing is enabled */
   marginCollapse?: boolean;
+
+  /** Optional style or style callback for the item wrapper */
   itemWrapperStyle?:
     | ViewStyle
-    | ((item: MCFlatListItem<T>, index: number) => ViewStyle);
+    | ((item: FlatListItem<T>, index: number) => ViewStyle);
 };
 
-export function MCFlatList<T>({
+/**
+ * FlatList replacement that supports margin collapsing.
+ * Note: `data` prop has slightly different shape than React Native's FlatList.
+ */
+export function FlatList<T>({
   data,
   renderItem,
   marginCollapse = true,
   itemWrapperStyle,
   ...restProps
-}: MCFlatListProps<T>) {
+}: FlatListProps<T>) {
   if (__DEV__ && data) {
     validateKeyUniqueness(data);
   }
@@ -37,7 +45,7 @@ export function MCFlatList<T>({
   const isHiddenMap = React.useRef<Record<string, boolean>>({}).current;
   const [, forceRerender] = React.useState({});
 
-  const _renderItem = (info: MCListRenderItemInfo<T>) => {
+  const _renderItem = (info: ListRenderItemInfo<T>) => {
     if (!renderItem || !data) {
       return null;
     }
@@ -46,11 +54,11 @@ export function MCFlatList<T>({
       marginCollapse,
       items: data,
       index: info.index,
-      isHiddenMap,
+      isExcludedMap: isHiddenMap,
       onRequestRender: () => forceRerender({}),
       itemWrapperStyle,
     });
   };
 
-  return <FlatList {...restProps} data={data} renderItem={_renderItem} />;
+  return <RNFlatList {...restProps} data={data} renderItem={_renderItem} />;
 }
