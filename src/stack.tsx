@@ -17,8 +17,8 @@ export interface MCStackProps extends Omit<ViewProps, 'children'> {
 }
 
 export function MCStack({
-  marginCollapse,
   items,
+  marginCollapse = true,
   itemWrapperStyle,
   ...restProps
 }: MCStackProps) {
