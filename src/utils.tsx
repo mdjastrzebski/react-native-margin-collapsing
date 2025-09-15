@@ -88,7 +88,6 @@ export function wrapElement<T extends MCItem>(
     typeof itemWrapperStyle === 'function'
       ? itemWrapperStyle(currentItem, index)
       : itemWrapperStyle;
-  console.log('baseStyle', baseStyle);
 
   const style: Mutable<ViewStyle> = { ...baseStyle };
   if (isHiddenMap[key]) {
@@ -98,19 +97,8 @@ export function wrapElement<T extends MCItem>(
     const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
     const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
 
-    if (!previousItem) {
-      style.paddingTop = getMarginTop(currentItem);
-    } else {
-      style.paddingTop =
-        Math.max(getMarginTop(currentItem), getMarginBottom(previousItem)) / 2;
-    }
-
-    if (!nextItem) {
-      style.paddingBottom = getMarginBottom(currentItem);
-    } else {
-      style.paddingBottom =
-        Math.max(getMarginBottom(currentItem), getMarginTop(nextItem)) / 2;
-    }
+    style.paddingTop = calculateTopMargin(currentItem, previousItem);
+    style.paddingBottom = calculateBottomMargin(currentItem, nextItem);
   }
 
   const handleLayout = (event: LayoutChangeEvent) => {
@@ -132,4 +120,29 @@ export function wrapElement<T extends MCItem>(
       <View onLayout={handleLayout}>{element}</View>
     </View>
   );
+}
+
+function calculateTopMargin(item: MCItem, previousItem: MCItem | null): number {
+  if (!previousItem) {
+    return getMarginTop(item);
+  }
+
+  const selfMargin = getMarginTop(item);
+  const otherMargin = getMarginBottom(previousItem);
+
+  const effectiveMargin = Math.max(selfMargin, otherMargin);
+  const totalMargin = selfMargin + otherMargin;
+  return Math.round((effectiveMargin * selfMargin) / totalMargin);
+}
+
+function calculateBottomMargin(item: MCItem, nextItem?: MCItem | null): number {
+  if (!nextItem) {
+    return getMarginBottom(item);
+  }
+
+  const effectiveMargin = Math.max(
+    getMarginBottom(item),
+    getMarginTop(nextItem)
+  );
+  return effectiveMargin - calculateTopMargin(nextItem, item);
 }
