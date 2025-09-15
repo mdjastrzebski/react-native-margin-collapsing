@@ -6,7 +6,7 @@ Zero-dependency margin-collapsing views for React Native: `VStack` (`View`), `Fl
 
 When two adjacent elements have vertical margins, only the larger margin is used instead of adding them together. This prevents extra space from accumulating between elements.
 
-![Margin Collapsing Visualization](https://github.com/user-attachments/assets/e605b1f1-fc98-4ee5-ac52-50c72d79fe35)
+<img src="https://github.com/user-attachments/assets/2381daa9-c844-4d9b-a994-2b631c095d74" alt="Margin Collapsing Visualized" width="335" height="400" />
 
 ## How does it work
 
