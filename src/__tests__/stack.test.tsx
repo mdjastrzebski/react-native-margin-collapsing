@@ -21,14 +21,14 @@ test('MarginCollapsingContainer calculates margins correctly', () => {
 
   expect(screen.getByTestId('margin-collapsing-item-1')).toHaveStyle({
     paddingTop: 10,
-    paddingBottom: 7,
-  });
-  expect(screen.getByTestId('margin-collapsing-item-2')).toHaveStyle({
-    paddingTop: 13,
     paddingBottom: 10,
   });
+  expect(screen.getByTestId('margin-collapsing-item-2')).toHaveStyle({
+    paddingTop: 10,
+    paddingBottom: 15,
+  });
   expect(screen.getByTestId('margin-collapsing-item-3')).toHaveStyle({
-    paddingTop: 20,
+    paddingTop: 15,
     paddingBottom: 30,
   });
 });
@@ -64,11 +64,11 @@ test('MarginCollapsingContainer calculates margins correctly for two items', () 
   expect(screen.getByText('Item 1')).toBeOnTheScreen();
   expect(screen.getByTestId('margin-collapsing-item-1')).toHaveStyle({
     paddingTop: 10,
-    paddingBottom: 11,
+    paddingBottom: 20,
   });
   expect(screen.getByText('Item 2')).toBeOnTheScreen();
   expect(screen.getByTestId('margin-collapsing-item-2')).toHaveStyle({
-    paddingTop: 9,
+    paddingTop: 0,
     paddingBottom: 25,
   });
 });

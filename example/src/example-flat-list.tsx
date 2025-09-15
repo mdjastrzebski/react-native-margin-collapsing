@@ -3,12 +3,18 @@ import {
   type MCFlatListItem,
 } from 'react-native-margin-collapsing';
 
-import { DEBUG_COLORS } from './debug';
+import { BACKGROUND_COLORS } from './constants';
 import { PressToHideText } from './press-to-hide';
 
 type Item = MCFlatListItem<{ title: string }>;
 
-export function ExampleFlatList({ debug }: { debug?: boolean }) {
+export function ExampleFlatList({
+  marginCollapse,
+  debug,
+}: {
+  marginCollapse?: boolean;
+  debug?: boolean;
+}) {
   const data: Item[] = [
     {
       key: '1',
@@ -45,6 +51,7 @@ export function ExampleFlatList({ debug }: { debug?: boolean }) {
     <MCFlatList
       data={data}
       renderItem={renderItem}
+      marginCollapse={marginCollapse}
       style={styles.list}
       itemWrapperStyle={debug ? debugItemWrapperStyle : undefined}
     />
@@ -52,12 +59,12 @@ export function ExampleFlatList({ debug }: { debug?: boolean }) {
 }
 
 const debugItemWrapperStyle = (_item: Item, index: number) => ({
-  backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
+  backgroundColor: BACKGROUND_COLORS[index % BACKGROUND_COLORS.length],
 });
 
 const styles = {
   list: {
-    borderColor: 'black',
+    borderColor: 'lightgray',
     borderWidth: 1,
   },
 };

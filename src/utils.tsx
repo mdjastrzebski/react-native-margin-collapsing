@@ -59,6 +59,8 @@ export function validateKeyUniqueness(
 }
 
 type WrapElementOptions<T extends MCItem> = {
+  marginCollapse?: boolean;
+
   /** Items array containing: key and sizing data */
   items: ArrayLike<T>;
   /** Index of current item in the `items` array */
@@ -79,6 +81,7 @@ export function wrapElement<T extends MCItem>(
     isHiddenMap,
     onRequestRender,
     itemWrapperStyle,
+    marginCollapse,
   }: WrapElementOptions<T>
 ): React.ReactNode {
   const currentItem = items[index]!;
@@ -93,12 +96,13 @@ export function wrapElement<T extends MCItem>(
   if (isHiddenMap[key]) {
     style.paddingTop = 0;
     style.paddingBottom = 0;
-  } else {
+  } else if (marginCollapse) {
     const previousItem = getPreviousNonZeroItem(items, isHiddenMap, index);
-    const nextItem = getNextNonZeroItem(items, isHiddenMap, index);
-
     style.paddingTop = calculateTopMargin(currentItem, previousItem);
-    style.paddingBottom = calculateBottomMargin(currentItem, nextItem);
+    style.paddingBottom = getMarginBottom(currentItem);
+  } else {
+    style.paddingTop = getMarginTop(currentItem);
+    style.paddingBottom = getMarginBottom(currentItem);
   }
 
   const handleLayout = (event: LayoutChangeEvent) => {
@@ -123,26 +127,12 @@ export function wrapElement<T extends MCItem>(
 }
 
 function calculateTopMargin(item: MCItem, previousItem: MCItem | null): number {
+  const requestedMargin = getMarginTop(item);
   if (!previousItem) {
-    return getMarginTop(item);
+    return requestedMargin;
   }
 
-  const selfMargin = getMarginTop(item);
-  const otherMargin = getMarginBottom(previousItem);
-
-  const effectiveMargin = Math.max(selfMargin, otherMargin);
-  const totalMargin = selfMargin + otherMargin;
-  return Math.round((effectiveMargin * selfMargin) / totalMargin);
-}
-
-function calculateBottomMargin(item: MCItem, nextItem?: MCItem | null): number {
-  if (!nextItem) {
-    return getMarginBottom(item);
-  }
-
-  const effectiveMargin = Math.max(
-    getMarginBottom(item),
-    getMarginTop(nextItem)
-  );
-  return effectiveMargin - calculateTopMargin(nextItem, item);
+  const otherRequestedMargin = getMarginBottom(previousItem);
+  const totalMargin = Math.max(requestedMargin, otherRequestedMargin);
+  return totalMargin - otherRequestedMargin;
 }

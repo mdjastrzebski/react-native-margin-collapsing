@@ -9,6 +9,7 @@ export interface MCStackItem extends MCItem {
 }
 
 export interface MCStackProps extends Omit<ViewProps, 'children'> {
+  marginCollapse?: boolean;
   items: MCStackItem[];
   itemWrapperStyle?:
     | ViewStyle
@@ -17,6 +18,7 @@ export interface MCStackProps extends Omit<ViewProps, 'children'> {
 
 export function MCStack({
   items,
+  marginCollapse = true,
   itemWrapperStyle,
   ...restProps
 }: MCStackProps) {
@@ -30,6 +32,7 @@ export function MCStack({
 
   const children = items.map((item, index) =>
     wrapElement(item.content, {
+      marginCollapse,
       items,
       index,
       isHiddenMap,

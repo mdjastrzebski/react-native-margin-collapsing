@@ -22,6 +22,9 @@ export function PressToHideText(props: TextProps) {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
+    padding: 16,
+    fontSize: 16,
+    color: '#333333',
   },
 });
