@@ -6,6 +6,8 @@ Zero-dependency margin-collapsing views for React Native: `Stack`, `FlatList`.
 
 When two adjacent elements have vertical margins, only the larger margin is used instead of adding them together. This prevents extra space from accumulating between elements.
 
+![Margin Collapsing Visualization](https://github.com/user-attachments/assets/e605b1f1-fc98-4ee5-ac52-50c72d79fe35)
+
 ## How does it work
 
 This library mimics CSS margin collapsing in React Native. Instead of using the `style` prop for margins, each child component specifies its vertical margin directly. The library then compares the margins of adjacent elements and applies only the larger one, preventing extra space from stacking up between them.
@@ -73,7 +75,7 @@ function FlatListExample() {
   ];
 
   const renderItem = ({ item }: { item: Item }) => {
-    return <PressToHideText>Margin: {item.marginVertical}</PressToHideText>;
+    return <Text>Margin: {item.marginVertical}</Text>;
   };
 
   return <MCFlatList data={data} renderItem={renderItem} />;
