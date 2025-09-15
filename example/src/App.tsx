@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import { colors } from './constants';
 import { ExampleFlatList } from './example-flat-list';
 import { ExampleStack } from './example-stack';
 
@@ -17,13 +18,13 @@ export default function App() {
           <Switch
             value={marginCollapse}
             onValueChange={setMarginCollapse}
-            trackColor={{ true: '#69bffd' }}
+            trackColor={{ true: colors.track }}
           />
           <Text style={styles.label}>Debug</Text>
           <Switch
             value={debug}
             onValueChange={setDebug}
-            trackColor={{ true: '#69bffd' }}
+            trackColor={{ true: colors.track }}
           />
         </View>
 
@@ -52,5 +53,5 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   title: { fontSize: 20, fontWeight: 'bold', paddingHorizontal: 16 },
-  label: { fontSize: 16, color: '#333' },
+  label: { fontSize: 16, color: colors.text },
 });

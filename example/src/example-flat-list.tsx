@@ -3,7 +3,7 @@ import {
   type MCFlatListItem,
 } from 'react-native-margin-collapsing';
 
-import { DEBUG_COLORS } from './debug';
+import { BACKGROUND_COLORS } from './constants';
 import { PressToHideText } from './press-to-hide';
 
 type Item = MCFlatListItem<{ title: string }>;
@@ -59,7 +59,7 @@ export function ExampleFlatList({
 }
 
 const debugItemWrapperStyle = (_item: Item, index: number) => ({
-  backgroundColor: DEBUG_COLORS[index % DEBUG_COLORS.length],
+  backgroundColor: BACKGROUND_COLORS[index % BACKGROUND_COLORS.length],
 });
 
 const styles = {

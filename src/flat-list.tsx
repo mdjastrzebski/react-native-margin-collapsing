@@ -25,7 +25,7 @@ export type MCFlatListProps<T> = FlatListProps<MCFlatListItem<T>> & {
 export function MCFlatList<T>({
   data,
   renderItem,
-  marginCollapse,
+  marginCollapse = true,
   itemWrapperStyle,
   ...restProps
 }: MCFlatListProps<T>) {

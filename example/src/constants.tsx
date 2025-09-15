@@ -1,4 +1,4 @@
-export const DEBUG_COLORS = [
+export const BACKGROUND_COLORS = [
   '#E3F2FD',
   '#F8BBD9',
   '#E8F5E8',
@@ -12,3 +12,8 @@ export const DEBUG_COLORS = [
   '#F3E5F5',
   '#FFCDD2',
 ];
+
+export const colors = {
+  track: '#69bffd',
+  text: '#333',
+};
