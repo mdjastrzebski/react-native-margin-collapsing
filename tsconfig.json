@@ -2,7 +2,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-margin-collapsing": ["./src/index"]
+      "react-native-margin-collapsing": ["./src/index"],
+      "react-native-margin-collapsing/flash-list": ["./src/flash-list"],
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
