@@ -76,9 +76,9 @@
     "typescript-eslint": "^8.43.0"
   },
   "peerDependencies": {
+    "@shopify/flash-list": "*",
     "react": "*",
-    "react-native": "*",
-    "@shopify/flash-list": "*"
+    "react-native": "*"
   },
   "peerDependenciesMeta": {
     "@shopify/flash-list": {
