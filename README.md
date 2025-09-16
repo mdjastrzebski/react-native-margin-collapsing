@@ -84,6 +84,40 @@ function FlatListExample() {
 
 Note: `data` prop has slightly different shape then regular `FlatList`.
 
+### FlashList
+
+```tsx
+import { FlashList } from 'react-native-margin-collapsing/flash-list';
+
+const data: Item[] = [
+  {
+    key: 'item-1',
+    data: { title: 'Item 1' },
+    marginVertical: 20,
+  },
+  {
+    key: '2',
+    data: { title: 'Item 2' },
+    marginVertical: 0,
+  },
+  {
+    key: '3',
+    data: { title: 'Item 3' },
+    marginVertical: 10,
+  },
+];
+
+function FlashListExample() {
+  const renderItem = ({ item }: { item: Item }) => {
+    return <Text>Margin: {item.marginVertical}</Text>;
+  };
+
+  return <FlashList data={data} renderItem={renderItem} />;
+}
+```
+
+Note: `data` prop has slightly different shape then regular `FlashList`.
+
 ## Contributing
 
 PRs welcome! Keep it awesome.

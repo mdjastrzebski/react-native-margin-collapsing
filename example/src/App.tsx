@@ -7,9 +7,9 @@ import { ExampleStack } from './example-stack';
 
 const Tabs = createBottomTabNavigator({
   screens: {
-    Stack: ExampleStack,
-    FlatList: ExampleFlatList,
-    FlashList: ExampleFlashList,
+    Stack: { screen: ExampleStack, options: { title: 'V Stack' } },
+    FlatList: { screen: ExampleFlatList, options: { title: 'Flat List' } },
+    FlashList: { screen: ExampleFlashList, options: { title: 'Flash List' } },
   },
 });
 

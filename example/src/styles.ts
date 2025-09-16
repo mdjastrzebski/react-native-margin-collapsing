@@ -10,9 +10,14 @@ export const sharedStyles = StyleSheet.create({
   },
   panel: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     padding: 20,
+    gap: 10,
+  },
+  panelItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 10,
   },
   wrapper: {

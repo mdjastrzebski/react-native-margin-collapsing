@@ -47,18 +47,22 @@ export function ExampleFlatList() {
   return (
     <View style={sharedStyles.screen}>
       <View style={sharedStyles.panel}>
-        <Text style={sharedStyles.label}>Collapse Margins</Text>
-        <Switch
-          value={marginCollapse}
-          onValueChange={setMarginCollapse}
-          trackColor={{ true: colors.track }}
-        />
-        <Text style={sharedStyles.label}>Debug</Text>
-        <Switch
-          value={debug}
-          onValueChange={setDebug}
-          trackColor={{ true: colors.track }}
-        />
+        <View style={sharedStyles.panelItem}>
+          <Text style={sharedStyles.label}>Collapse Margins</Text>
+          <Switch
+            value={marginCollapse}
+            onValueChange={setMarginCollapse}
+            trackColor={{ true: colors.track }}
+          />
+        </View>
+        <View style={sharedStyles.panelItem}>
+          <Text style={sharedStyles.label}>Debug</Text>
+          <Switch
+            value={debug}
+            onValueChange={setDebug}
+            trackColor={{ true: colors.track }}
+          />
+        </View>
       </View>
 
       <FlatList
