@@ -1,8 +1,9 @@
-import * as React from 'react';
-import { Switch, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { FlatList, type FlatListItem } from 'react-native-margin-collapsing';
 
-import { BACKGROUND_COLORS, colors } from './constants';
+import { BACKGROUND_COLORS } from './constants';
+import { Panel } from './panel';
+import { usePanelState } from './panel-state';
 import { PressToHideText } from './press-to-hide';
 import { sharedStyles } from './styles';
 
@@ -37,8 +38,7 @@ const data: Item[] = [
 ];
 
 export function ExampleFlatList() {
-  const [marginCollapse, setMarginCollapse] = React.useState(true);
-  const [debug, setDebug] = React.useState(true);
+  const { marginCollapse, debug } = usePanelState();
 
   const renderItem = ({ item }: { item: Item }) => {
     return <PressToHideText>Margin: {item.marginVertical}</PressToHideText>;
@@ -46,24 +46,7 @@ export function ExampleFlatList() {
 
   return (
     <View style={sharedStyles.screen}>
-      <View style={sharedStyles.panel}>
-        <View style={sharedStyles.panelItem}>
-          <Text style={sharedStyles.label}>Collapse Margins</Text>
-          <Switch
-            value={marginCollapse}
-            onValueChange={setMarginCollapse}
-            trackColor={{ true: colors.track }}
-          />
-        </View>
-        <View style={sharedStyles.panelItem}>
-          <Text style={sharedStyles.label}>Debug</Text>
-          <Switch
-            value={debug}
-            onValueChange={setDebug}
-            trackColor={{ true: colors.track }}
-          />
-        </View>
-      </View>
+      <Panel />
 
       <FlatList
         data={data}

@@ -4,6 +4,7 @@ import { createStaticNavigation } from '@react-navigation/native';
 import { ExampleFlashList } from './example-flash-list';
 import { ExampleFlatList } from './example-flat-list';
 import { ExampleStack } from './example-stack';
+import { PanelStateProvider } from './panel-state';
 
 const Tabs = createBottomTabNavigator({
   screens: {
@@ -16,5 +17,9 @@ const Tabs = createBottomTabNavigator({
 const Navigation = createStaticNavigation(Tabs);
 
 export default function App() {
-  return <Navigation />;
+  return (
+    <PanelStateProvider>
+      <Navigation />
+    </PanelStateProvider>
+  );
 }
