@@ -3,6 +3,7 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from './constants';
+import { ExampleFlashList } from './example-flash-list';
 import { ExampleFlatList } from './example-flat-list';
 import { ExampleStack } from './example-stack';
 
@@ -28,11 +29,14 @@ export default function App() {
           />
         </View>
 
-        <Text style={styles.title}>Stack</Text>
-        <ExampleStack marginCollapse={marginCollapse} debug={debug} />
+        {/* <Text style={styles.title}>Stack</Text>
+        <ExampleStack marginCollapse={marginCollapse} debug={debug} /> */}
 
-        <Text style={styles.title}>Flat List</Text>
-        <ExampleFlatList marginCollapse={marginCollapse} debug={debug} />
+        {/* <Text style={styles.title}>Flat List</Text> */}
+        {/* <ExampleFlatList marginCollapse={marginCollapse} debug={debug} /> */}
+
+        <Text style={styles.title}>Flash List</Text>
+        <ExampleFlashList marginCollapse={marginCollapse} debug={debug} />
       </SafeAreaView>
     </SafeAreaProvider>
   );

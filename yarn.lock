@@ -3428,6 +3428,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shopify/flash-list@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@shopify/flash-list@npm:2.0.3"
+  dependencies:
+    tslib: "npm:2.8.1"
+  peerDependencies:
+    "@babel/runtime": "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10/5078d3779cfba5f286c73e1802ea78ecc337c3ae847b32f74af0de3bb38b2b96a759b1a0e04a5fd328387b31a57a436468bd022daec9af246ca2615d8ff3e44a
+  languageName: node
+  linkType: hard
+
 "@sinclair/typebox@npm:^0.27.8":
   version: 0.27.8
   resolution: "@sinclair/typebox@npm:0.27.8"
@@ -11005,6 +11018,7 @@ __metadata:
   resolution: "react-native-margin-collapsing-example@workspace:example"
   dependencies:
     "@expo/metro-runtime": "npm:~6.1.1"
+    "@shopify/flash-list": "npm:^2.0.3"
     expo: "npm:~54.0.1"
     expo-status-bar: "npm:~3.0.7"
     react: "npm:19.1.0"
@@ -11026,6 +11040,7 @@ __metadata:
     "@react-native/babel-preset": "npm:0.81.1"
     "@react-native/eslint-config": "npm:^0.81.1"
     "@release-it/conventional-changelog": "npm:^10.0.1"
+    "@shopify/flash-list": "npm:^2.0.3"
     "@testing-library/react-native": "npm:^13.3.3"
     "@types/jest": "npm:^30.0.0"
     "@types/react": "npm:^19.1.12"
@@ -12471,17 +12486,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.8.1, tslib@npm:^2.0.1, tslib@npm:^2.1.0, tslib@npm:^2.4.0":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.8.1":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 10/7dbf34e6f55c6492637adb81b555af5e3b4f9cc6b998fb440dac82d3b42bdc91560a35a5fb75e20e24a076c651438234da6743d139e4feabf0783f3cdfe1dddb
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.0.1, tslib@npm:^2.1.0, tslib@npm:^2.4.0":
-  version: 2.8.1
-  resolution: "tslib@npm:2.8.1"
-  checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
   languageName: node
   linkType: hard
 

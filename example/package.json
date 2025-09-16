@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.1",
+    "@shopify/flash-list": "^2.0.3",
     "expo": "~54.0.1",
     "expo-status-bar": "~3.0.7",
     "react": "19.1.0",

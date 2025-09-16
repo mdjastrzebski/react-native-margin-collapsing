@@ -73,7 +73,7 @@ export function wrapElement<T extends ItemProps>(
     onRequestRender,
     itemWrapperStyle,
   }: WrapElementOptions<T>
-): React.ReactNode {
+): React.ReactElement {
   const currentItem = items[index]!;
   const key = currentItem.key;
 
